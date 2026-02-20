@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/todolistDB")
+mongoose.connect("mongodb+srv://DharaniselviMoorthi:dharani31@cluster0.v2jzapg.mongodb.net/todolistDB?appName=Cluster0")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
@@ -50,6 +50,8 @@ app.delete("/todolist/:id", async (req, res) => {
   res.json({ message: "Task Deleted" });
 });
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
   console.log("Server started on port 3000");
 });

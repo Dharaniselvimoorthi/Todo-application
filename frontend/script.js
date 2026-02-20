@@ -1,9 +1,10 @@
-const API_URL = "http://localhost:3000/todolist";
+
 
 const task_input = document.getElementById("inp");
 const add_btn = document.getElementById("add-btn");
 const task_list = document.getElementById("tasklist");
 
+const API_URL = "https://todo-application-backend-nhmb.onrender.com/todolist";
 window.onload = () => {
     fetch(API_URL)
         .then(res => res.json())
