@@ -1,5 +1,4 @@
 
-
 const task_input = document.getElementById("inp");
 const add_btn = document.getElementById("add-btn");
 const task_list = document.getElementById("tasklist");
