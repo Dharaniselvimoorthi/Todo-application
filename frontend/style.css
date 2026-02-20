@@ -1,0 +1,75 @@
+body {
+    background: #bc2aed;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    background: #2a31ff;
+    width: 500px;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+#add-btn {
+    padding: 10px 20px;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+}
+
+#tasklist { padding: 0; }
+
+#tasklist li {
+    background: white;
+    list-style: none;
+    padding: 12px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    gap: 15px;
+    transition: 0.3s;
+}
+
+.tick-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    background: white;
+    color: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+
+#tasklist li span { flex-grow: 1; font-size: 18px; }
+
+.del-btn {
+    background: #bf0505;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* COMPLETED STYLES */
+li.completed { background-color: #d4edda !important; }
+li.completed .tick-btn { background-color: #28a745; border-color: #28a745; color: white; }
+li.completed span { text-decoration: line-through; color: #6c757d; }
