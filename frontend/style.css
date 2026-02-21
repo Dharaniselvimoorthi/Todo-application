@@ -73,3 +73,134 @@ input {
 li.completed { background-color: #d4edda !important; }
 li.completed .tick-btn { background-color: #28a745; border-color: #28a745; color: white; }
 li.completed span { text-decoration: line-through; color: #6c757d; }
+
+/* ============================= */
+/* 🌈 Animated Background */
+/* ============================= */
+
+body {
+    background: linear-gradient(-45deg, #bc2aed, #2a31ff, #ff4ecd, #00c9ff);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ============================= */
+/* ✨ Glassmorphism Container */
+/* ============================= */
+
+.container {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: popUp 0.8s ease;
+}
+
+@keyframes popUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================= */
+/* 💎 Input Glow Effect */
+/* ============================= */
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 15px #ffffff;
+    transform: scale(1.03);
+    transition: 0.3s;
+}
+
+/* ============================= */
+/* 🔥 Add Button Glow */
+/* ============================= */
+
+#add-btn {
+    transition: 0.4s;
+}
+
+#add-btn:hover {
+    background: linear-gradient(45deg, #ff4ecd, #00c9ff);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+/* ============================= */
+/* 🌊 Task Animation */
+/* ============================= */
+
+#tasklist li {
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#tasklist li:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ============================= */
+/* ✅ Tick Button Animation */
+/* ============================= */
+
+.tick-btn {
+    transition: 0.3s;
+}
+
+.tick-btn:hover {
+    transform: rotate(360deg) scale(1.2);
+    background: linear-gradient(45deg, #00ff88, #00c9ff);
+    color: white;
+    border: none;
+}
+
+/* ============================= */
+/* ❌ Delete Button Animation */
+/* ============================= */
+
+.del-btn {
+    transition: 0.3s;
+}
+
+.del-btn:hover {
+    background: linear-gradient(45deg, #ff0000, #ff4ecd);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px red;
+}
+
+/* ============================= */
+/* 🎉 Completed Task Glow */
+/* ============================= */
+
+li.completed {
+    animation: completedGlow 0.5s ease;
+}
+
+@keyframes completedGlow {
+    from { box-shadow: 0 0 0px #28a745; }
+    to { box-shadow: 0 0 20px #28a745; }
+}
+
