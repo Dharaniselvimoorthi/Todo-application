@@ -1,83 +1,117 @@
+const API_URL = "https://todo-application-backend-nhmb.onrender.com/todolist";
 
 const task_input = document.getElementById("inp");
 const add_btn = document.getElementById("add-btn");
 const task_list = document.getElementById("tasklist");
+const loader = document.getElementById("loader");
+const progressCircle = document.getElementById("progress");
+const percentText = document.getElementById("percent");
 
-const API_URL = "https://todo-application-backend-nhmb.onrender.com/todolist";
+let tasksData = [];
+
 window.onload = () => {
-    fetch(API_URL)
-        .then(res => res.json())
-        .then(tasks => {
-            task_list.innerHTML = ""; 
-            tasks.forEach(task => createTask(task));
-            updateCount();
-        });
+    fetchTasks();
 };
+
+function fetchTasks(){
+    fetch(API_URL)
+    .then(res=>res.json())
+    .then(data=>{
+        tasksData = data;
+        task_list.innerHTML="";
+        data.forEach(task=>createTask(task));
+        updateCount();
+        loader.style.display="none";
+    });
+}
 
 add_btn.onclick = () => {
     const text = task_input.value.trim();
-    if (!text) return;
-    fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userTask: text })
+    if(!text) return;
+
+    fetch(API_URL,{
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ userTask:text })
     })
-    .then(res => res.json())
-    .then(newTask => {
+    .then(res=>res.json())
+    .then(newTask=>{
+        tasksData.push(newTask);
         createTask(newTask);
         updateCount();
-        task_input.value = "";
+        showToast("Task Added 🚀");
+        task_input.value="";
     });
 };
 
-function createTask(task) {
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    const completeBtn = document.createElement("button");
-    const deleteBtn = document.createElement("button");
+function createTask(task){
+    const li=document.createElement("li");
+    const span=document.createElement("span");
+    const completeBtn=document.createElement("button");
+    const deleteBtn=document.createElement("button");
 
-    span.textContent = task.userTask;
-    completeBtn.innerHTML = "✔";
-    deleteBtn.textContent = "Delete";
-    
-    completeBtn.className = "tick-btn";
-    deleteBtn.className = "del-btn";
+    span.textContent=task.userTask;
+    completeBtn.innerHTML="✔";
+    deleteBtn.textContent="Delete";
 
-    if (task.status) li.classList.add("completed");
+    completeBtn.className="tick-btn";
+    deleteBtn.className="del-btn";
 
-    completeBtn.onclick = function() {
-        // Use current DOM state to toggle
-        const isCurrentlyCompleted = li.classList.contains("completed");
-        const newStatus = !isCurrentlyCompleted;
+    if(task.status) li.classList.add("completed");
 
-        fetch(`${API_URL}/${task._id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: newStatus })
+    completeBtn.onclick=()=>{
+        fetch(`${API_URL}/${task._id}`,{
+            method:"PUT",
+            headers:{ "Content-Type":"application/json" },
+            body: JSON.stringify({ status: !task.status })
         })
-        .then(res => res.json())
-        .then(updatedTask => {
-            // Sync the object and UI
-            task.status = updatedTask.status;
-            if (updatedTask.status) {
-                li.classList.add("completed");
-            } else {
-                li.classList.remove("completed");
-            }
+        .then(res=>res.json())
+        .then(updated=>{
+            task.status=updated.status;
+            li.classList.toggle("completed");
             updateCount();
+            showToast("Task Updated 🎉");
         });
     };
 
-    deleteBtn.onclick = () => {
-        fetch(`${API_URL}/${task._id}`, { method: "DELETE" })
-            .then(() => { li.remove(); updateCount(); });
+    deleteBtn.onclick=()=>{
+        fetch(`${API_URL}/${task._id}`,{ method:"DELETE" })
+        .then(()=>{
+            li.style.transform="translateX(100%)";
+            setTimeout(()=>{
+                li.remove();
+                updateCount();
+                showToast("Task Deleted ❌");
+            },300);
+        });
     };
 
-    li.append(completeBtn, span, deleteBtn);
+    li.append(completeBtn,span,deleteBtn);
     task_list.appendChild(li);
 }
 
-function updateCount() {
-    document.getElementById("total").textContent = document.querySelectorAll("#tasklist li").length;
-    document.getElementById("completed").textContent = document.querySelectorAll("#tasklist li.completed").length;
+function updateCount(){
+    const total = document.querySelectorAll("#tasklist li").length;
+    const completed = document.querySelectorAll("#tasklist li.completed").length;
+
+    document.getElementById("total").textContent=total;
+    document.getElementById("completed").textContent=completed;
+
+    const percent = total===0?0:Math.round((completed/total)*100);
+    percentText.textContent = percent+"%";
+
+    const offset = 314 - (314*percent)/100;
+    progressCircle.style.strokeDashoffset = offset;
 }
+
+function showToast(message){
+    const toast=document.getElementById("toast");
+    toast.textContent=message;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2000);
+}
+
+/* DARK MODE */
+document.getElementById("themeToggle").onclick=()=>{
+    document.body.classList.toggle("dark");
+};
