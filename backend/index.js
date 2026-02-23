@@ -8,50 +8,62 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb+srv://DharaniselviMoorthi:dharani31@cluster0.v2jzapg.mongodb.net/todolistDB?appName=Cluster0")
+mongoose.connect("mongodb+srv://DharaniselviMoorthi:dharani31@cluster0.v2jzapg.mongodb.net/todolistDB")
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
 
-// GET all tasks
+// GET ALL TASKS
 app.get("/todolist", async (req, res) => {
-  const tasks = await Todo.find();
-  res.json(tasks);
+  try {
+    const tasks = await Todo.find().sort({ _id: -1 });
+    res.json(tasks);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch tasks" });
+  }
 });
 
 
-// POST new task
+// ADD TASK
 app.post("/todolist", async (req, res) => {
-  const newTask = new Todo({
-    userTask: req.body.userTask,
-    status: false
-  });
+  try {
+    const newTask = new Todo({
+      userTask: req.body.userTask,
+      status: false
+    });
 
-  const savedTask = await newTask.save();
-  res.json(savedTask);
+    const savedTask = await newTask.save();
+    res.json(savedTask);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to add task" });
+  }
 });
 
 
-// UPDATE task status
+// UPDATE STATUS
 app.put("/todolist/:id", async (req, res) => {
-  const updatedTask = await Todo.findByIdAndUpdate(
-    req.params.id,
-    { status: req.body.status },
-    { new: true }
-  );
-
-  res.json(updatedTask);
+  try {
+    const updatedTask = await Todo.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+    res.json(updatedTask);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update task" });
+  }
 });
 
 
-// DELETE task
+// DELETE TASK
 app.delete("/todolist/:id", async (req, res) => {
-  await Todo.findByIdAndDelete(req.params.id);
-  res.json({ message: "Task Deleted" });
+  try {
+    await Todo.findByIdAndDelete(req.params.id);
+    res.json({ message: "Task Deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete task" });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("Server started on port 3000");
-});
+app.listen(PORT, () => console.log("Server started"));

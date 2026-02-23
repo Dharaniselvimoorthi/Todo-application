@@ -1,55 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra To-Do Pro</title>
+<title>Ultra Todo</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="loader" id="loader">
-    <div class="spinner"></div>
-</div>
+<div class="container">
+    <h1>Ultra To-Do 🔥</h1>
 
-<div class="app">
-
-    <div class="top-bar">
-        <h1>🔥 Ultra To-Do Pro</h1>
-        <button id="themeToggle">🌙</button>
-    </div>
-
-    <div class="stats">
-        <div class="progress-circle">
-            <svg>
-                <circle cx="60" cy="60" r="50"></circle>
-                <circle cx="60" cy="60" r="50" id="progress"></circle>
-            </svg>
-            <div id="percent">0%</div>
-        </div>
-
-        <div class="numbers">
-            <p>Total: <span id="total">0</span></p>
-            <p>Completed: <span id="completed">0</span></p>
-        </div>
-    </div>
-
-    <div class="input-section">
-        <input type="text" id="inp" placeholder="Enter your task...">
-        <button id="add-btn">Add Task</button>
+    <div class="input-group">
+        <input type="text" id="inp" placeholder="Enter task...">
+        <button id="add-btn">Add</button>
     </div>
 
     <div class="filters">
-        <button class="filter active" data-filter="all">All</button>
-        <button class="filter" data-filter="completed">Completed</button>
-        <button class="filter" data-filter="pending">Pending</button>
+        <button class="filter active" data-type="all">All</button>
+        <button class="filter" data-type="completed">Completed</button>
+        <button class="filter" data-type="pending">Pending</button>
     </div>
 
+    <p>Total: <span id="total">0</span></p>
+    <p>Completed: <span id="completed">0</span></p>
+
     <ul id="tasklist"></ul>
-
 </div>
-
-<div id="toast"></div>
 
 <script src="script.js"></script>
 </body>
