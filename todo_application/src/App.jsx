@@ -40,9 +40,9 @@ function App() {
         setList(newList);
       });
 
-     const newList = [...list];
-     newList[index].status = !newList[index].status;
-    setList([...newList]);
+    //  const newList = [...list];
+    //  newList[index].status = !newList[index].status;
+    // setList([...newList]);
    };
 
 
